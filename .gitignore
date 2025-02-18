@@ -1,0 +1,5 @@
+.idea
+.venv
+.secrets.toml
+pocket.lock
+settings.toml
