@@ -6,6 +6,8 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain.memory import ConversationBufferMemory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
+from custom_tools import get_current_datetime, comment_on_pr_for_infra_impact
+
 
 load_dotenv()
 
@@ -14,6 +16,11 @@ def agent():
     pocket = PocketLangchain(
         tools=[
             # Add your tools here
+            get_current_datetime,
+            comment_on_pr_for_infra_impact,
+            ("https://github.com/vessl-ai/2025-02-hacknight-bootstrap/tree/main/tools/issue-cleanup", {"GITHUB_TOKEN": os.getenv("GITHUB_TOKEN")}),
+            ("https://github.com/vessl-ai/2025-02-hacknight-bootstrap/tree/main/tools/list-issues", {"GITHUB_TOKEN": os.getenv("GITHUB_TOKEN")}),
+           
         ])
     tools = pocket.get_tools()
     llm = ChatOpenAI(
